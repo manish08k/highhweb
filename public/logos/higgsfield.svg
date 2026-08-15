@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Higgsfield">
+  <title>Higgsfield</title>
+  <rect width="320" height="80" fill="white" fill-opacity="0"/>
+  <text x="160" y="51"
+        text-anchor="middle"
+        font-family="Inter, Arial, Helvetica, sans-serif"
+        font-size="32"
+        font-weight="600"
+        letter-spacing="-1.2"
+        fill="#18191D">Higgsfield</text>
+</svg>

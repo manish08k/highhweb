@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   HIGHH GLOBAL STYLES
+   Clean white / premium / minimal visual system
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: #0a0b0e;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01" 1, "cv01" 1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #0a0b0e;
+}
+
+::selection {
+  background: #4b4cf0;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #4b4cf0;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.container-px {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-px {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* =========================================================
+   HERO BACKGROUND
+   Completely clean white.
+   No visible grid.
+   No gray background.
+   ========================================================= */
+
+.grid-fade {
+  background: transparent !important;
+  background-image: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+/* Very subtle premium atmosphere if another section uses it */
+.dark-glow {
+  background:
+    radial-gradient(
+      700px 400px at 50% 25%,
+      rgba(75, 76, 240, 0.025),
+      transparent 70%
+    ),
+    radial-gradient(
+      500px 300px at 15% 20%,
+      rgba(255, 138, 61, 0.018),
+      transparent 70%
+    );
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
