@@ -7,7 +7,7 @@ import { Runtime } from "@/components/sections/Runtime";
 import { Process } from "@/components/sections/Process";
 import { Stack } from "@/components/sections/Stack";
 import { FAQ } from "@/components/sections/FAQ";
-import { FinalCTA } from "@/components/sections/FinalCTA";
+import BookCall from "@/components/booking/BookCall";
 
 export default function HomePage() {
   return (
@@ -22,7 +22,7 @@ export default function HomePage() {
         <Process />
         <Stack />
         <FAQ />
-        <FinalCTA />
+        <BookCall />
       </main>
 
       <Footer />

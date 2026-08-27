@@ -8,12 +8,11 @@ export function Hero() {
   return (
     <>
       <section className="relative isolate overflow-hidden bg-white pb-24 pt-28 sm:pt-32 md:pb-32 md:pt-36 lg:pb-36 lg:pt-40">
-        {/* Clean white hero background */}
+        {/* Background */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 -z-10 bg-white"
         >
-          {/* Extremely subtle indigo atmosphere */}
           <div
             className="absolute inset-0"
             style={{
@@ -22,7 +21,6 @@ export function Hero() {
             }}
           />
 
-          {/* Very subtle warm accent */}
           <div
             className="absolute inset-0"
             style={{

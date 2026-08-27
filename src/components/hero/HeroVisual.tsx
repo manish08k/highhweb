@@ -1,41 +1,92 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { ProductWindow } from "@/components/product/ProductWindow";
-import {
-  Zap,
-  Bot,
-  Webhook,
-  CheckCircle2,
-} from "lucide-react";
 
-const NODES = [
-  {
-    icon: Webhook,
-    label: "Trigger",
-    detail: "New Stripe invoice",
-  },
-  {
-    icon: Bot,
-    label: "Agent",
-    detail: "Reads terms, flags risk",
-  },
-  {
-    icon: Zap,
-    label: "Action",
-    detail: "Drafts response, files ticket",
-  },
-  {
-    icon: CheckCircle2,
-    label: "Result",
-    detail: "Logged to workspace",
-  },
+const IMAGES = [
+  "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=700&q=90",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=90",
+  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=700&q=90",
+  "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=700&q=90",
+  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=700&q=90",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=700&q=90",
+  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=700&q=90",
+  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=700&q=90",
 ];
 
 export function HeroVisual() {
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    let animationFrame: number;
+    const start = performance.now();
+
+    const animate = (time: number) => {
+      const elapsed = (time - start) / 1000;
+
+      cardsRef.current.forEach((card, index) => {
+        if (!card) return;
+
+        const count = IMAGES.length;
+
+        // One clean continuous orbit
+        const angle =
+          (index / count) * Math.PI * 2 + elapsed * 0.16;
+
+        // Wider and flatter = cleaner horizontal composition
+        const radiusX = 205;
+        const radiusY = 78;
+
+        const x = Math.cos(angle) * radiusX;
+        const y = Math.sin(angle) * radiusY;
+
+        // Controlled depth
+        const depth = Math.sin(angle);
+        const z = depth * 150;
+
+        // Small size difference
+        const scale =
+          0.84 + ((depth + 1) / 2) * 0.16;
+
+        // Different subtle angles
+        const rotation =
+          Math.cos(angle) * 7;
+
+        // Gentle independent movement
+        const floatY =
+          Math.sin(elapsed * 0.65 + index * 1.4) * 3;
+
+        const floatRotation =
+          Math.sin(elapsed * 0.5 + index) * 1.2;
+
+        card.style.transform = `
+          translate3d(
+            ${x}px,
+            ${y + floatY}px,
+            ${z}px
+          )
+          rotateZ(${rotation + floatRotation}deg)
+          scale(${scale})
+        `;
+
+        card.style.zIndex = String(
+          100 + Math.round(depth * 50)
+        );
+      });
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
   return (
     <ProductWindow
-      title="highh-runtime — pipeline: invoice-review"
+      title="highh-visual — image orbit"
       toolbar={
         <span className="flex items-center gap-1.5 rounded-pill bg-[#22C55E]/10 px-2.5 py-1 font-mono text-[11px] text-[#16A34A]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
@@ -43,115 +94,161 @@ export function HeroVisual() {
         </span>
       }
     >
-      <div className="relative overflow-hidden bg-white px-6 py-10 md:px-10 md:py-14">
-        <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-8 md:grid-cols-4 md:gap-0">
-          {NODES.map((node, i) => {
-            const Icon = node.icon;
+      <div
+        className="
+          relative
+          h-[420px]
+          overflow-hidden
+          rounded-b-[inherit]
+          bg-white
+          sm:h-[450px]
+          md:h-[480px]
+        "
+      >
+        {/* Soft center glow */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/2
+            h-[300px]
+            w-[600px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-full
+            bg-indigo-100/40
+            blur-[100px]
+          "
+        />
 
-            return (
+        {/* Very subtle orbit ring */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/2
+            h-[175px]
+            w-[470px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-[50%]
+            border
+            border-slate-200/60
+          "
+        />
+
+        {/* Second subtle orbit ring */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/2
+            h-[250px]
+            w-[560px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-[50%]
+            border
+            border-slate-100/80
+          "
+        />
+
+        {/* 3D perspective */}
+        <div
+          className="
+            absolute
+            inset-0
+            flex
+            items-center
+            justify-center
+          "
+          style={{
+            perspective: "1400px",
+            perspectiveOrigin: "50% 50%",
+          }}
+        >
+          {/* SINGLE ORBIT */}
+          <div
+            className="
+              relative
+              h-[330px]
+              w-[520px]
+            "
+            style={{
+              transformStyle: "preserve-3d",
+              transform: "rotateX(7deg)",
+            }}
+          >
+            {IMAGES.map((src, index) => (
               <div
-                key={node.label}
-                className="relative flex items-center md:flex-col"
+                key={index}
+                ref={(element) => {
+                  cardsRef.current[index] = element;
+                }}
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-[138px]
+                  w-[138px]
+                  -ml-[69px]
+                  -mt-[69px]
+                  overflow-hidden
+                  rounded-[20px]
+                  bg-white
+                  border
+                  border-white
+                  shadow-[0_18px_40px_rgba(15,23,42,0.16)]
+                  will-change-transform
+                "
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
               >
-                {/* Connector */}
-                {i < NODES.length - 1 && (
-                  <div
-                    className="
-                      absolute
-                      left-[36px]
-                      top-14
-                      hidden
-                      h-px
-                      w-[calc(100%-36px)]
-                      bg-line-strong
-                      md:left-1/2
-                      md:top-7
-                      md:block
-                      md:w-full
-                    "
-                  >
-                    <motion.div
-                      className="h-full origin-left bg-indigo"
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{
-                        once: true,
-                        amount: 0.5,
-                      }}
-                      transition={{
-                        duration: 0.9,
-                        delay: 0.35 + i * 0.22,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                    />
-                  </div>
-                )}
-
-                {/* Node */}
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 10,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                    amount: 0.5,
-                  }}
-                  transition={{
-                    duration: 0.65,
-                    delay: i * 0.22,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
+                <img
+                  src={src}
+                  alt=""
+                  draggable={false}
                   className="
-                    relative
-                    z-10
-                    flex
-                    items-center
-                    gap-4
-                    md:flex-col
-                    md:gap-3
-                    md:text-center
+                    block
+                    h-full
+                    w-full
+                    select-none
+                    object-cover
                   "
-                >
-                  <span
-                    className="
-                      flex
-                      h-14
-                      w-14
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-xl
-                      border
-                      border-line-strong
-                      bg-white
-                      shadow-[0_2px_10px_rgba(17,17,20,0.05)]
-                    "
-                  >
-                    <Icon
-                      size={21}
-                      className="text-indigo"
-                      strokeWidth={1.75}
-                    />
-                  </span>
+                />
 
-                  <div className="md:mt-1">
-                    <p className="font-mono text-[13px] font-medium text-ink-900">
-                      {node.label}
-                    </p>
+                {/* clean glass highlight */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-[20px]
+                    bg-gradient-to-br
+                    from-white/20
+                    via-transparent
+                    to-black/5
+                  "
+                />
 
-                    <p className="mt-1 text-[14px] leading-5 text-ink-500">
-                      {node.detail}
-                    </p>
-                  </div>
-                </motion.div>
+                {/* subtle border */}
+                <div
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-[20px]
+                    border
+                    border-black/[0.06]
+                  "
+                />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </ProductWindow>
