@@ -1,59 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Maximize2, X } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Maximize2,
+  Play,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Video = {
   id: string;
   title: string;
   category: string;
+  description?: string;
 };
 
-/*
- * Add your real YouTube video IDs here.
- *
- * Example:
- * https://www.youtube.com/watch?v=ABC123XYZ
- *                         ^^^^^^^^^^
- *                         video ID
- */
 const videos: Video[] = [
   {
-    id: "wokDueURKeM",
-    title: "Motion Graphics Showcase",
+    id: "fsuQV10bFQo",
+    title: "Edit 2",
     category: "Motion",
+    description: "A curated motion and visual design showcase.",
   },
-  {
-    id: "QyDL5saNh3s",
-    title: "Motion Showcase 02",
-    category: "Motion",
-  },
-];
 
-  // Add your next videos here:
-  //
+  // Add more videos here
   // {
   //   id: "YOUR_VIDEO_ID",
   //   title: "Product Animation",
   //   category: "Product",
+  //   description: "Product-focused motion design.",
   // },
-  //
-  // {
-  //   id: "YOUR_VIDEO_ID",
-  //   title: "Brand Motion",
-  //   category: "Brand",
-  // },
-  //
-  // {
-  //   id: "YOUR_VIDEO_ID",
-  //   title: "Cinematic Visual",
-  //   category: "Cinematic",
-  // },
-
+];
 
 export default function MotionGraphicsPage() {
   const [expandedVideo, setExpandedVideo] = useState<Video | null>(null);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   useEffect(() => {
     if (!expandedVideo) return;
@@ -74,37 +57,79 @@ export default function MotionGraphicsPage() {
   }, [expandedVideo]);
 
   return (
-    <main className="bg-white text-neutral-950">
+    <main className="min-h-screen bg-white text-neutral-950 selection:bg-neutral-950 selection:text-white">
       {/* =========================================================
           HERO
       ========================================================= */}
 
-      <section className="mx-auto max-w-[1400px] px-6 pb-20 pt-20 sm:px-8 lg:px-10 lg:pb-28 lg:pt-28">
-        <div className="max-w-[1100px]">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
-            Motion Graphics
-          </p>
+      <section className="relative overflow-hidden">
+        {/* Background details */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[8%] top-[18%] h-px w-[84%] bg-neutral-200" />
+          <div className="absolute left-[8%] top-[18%] h-[500px] w-px bg-neutral-200" />
+          <div className="absolute right-[8%] top-[18%] h-[500px] w-px bg-neutral-200" />
 
-          <h1 className="max-w-[1050px] text-[48px] font-semibold leading-[0.96] tracking-[-0.06em] sm:text-[64px] lg:text-[82px]">
-            Motion that makes your product impossible to ignore.
-          </h1>
+          <div className="absolute left-[8%] top-[18%] h-2 w-2 rounded-full bg-neutral-950" />
+          <div className="absolute right-[8%] top-[18%] h-2 w-2 rounded-full bg-neutral-950" />
+        </div>
 
-          <p className="mt-7 max-w-[650px] text-lg leading-8 text-neutral-500 lg:text-xl">
-            Product animation, motion graphics, brand visuals, and cinematic
-            experiences.
-          </p>
+        <div className="relative mx-auto flex min-h-[88vh] max-w-[1500px] flex-col justify-between px-6 pb-12 pt-10 sm:px-8 lg:px-12 lg:pb-16 lg:pt-12">
+          {/* Top label */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="h-2 w-2 rounded-full bg-neutral-950" />
 
-          <div className="mt-9">
-            <Link
-              href="/#contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3.5 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-neutral-800"
-            >
-              Start a project
-              <ArrowUpRight
-                size={17}
-                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </Link>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-500 sm:text-xs">
+                Motion Graphics
+              </p>
+            </div>
+
+            <span className="hidden text-xs uppercase tracking-[0.2em] text-neutral-400 sm:block">
+              Selected Work / 2026
+            </span>
+          </div>
+
+          {/* Main hero */}
+          <div className="relative z-10 mt-24">
+            <p className="mb-6 max-w-xl text-sm leading-6 text-neutral-400 sm:text-base">
+              Motion design for products, brands, launches, and digital
+              experiences.
+            </p>
+
+            <h1 className="max-w-[1250px] text-[52px] font-semibold leading-[0.9] tracking-[-0.075em] sm:text-[76px] md:text-[94px] lg:text-[118px] xl:text-[132px]">
+              Motion that
+              <br />
+              <span className="text-neutral-300">demands attention.</span>
+            </h1>
+
+            <div className="mt-12 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+              <Link
+                href="/#contact"
+                className="group inline-flex w-fit items-center gap-3 rounded-full bg-neutral-950 px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-800"
+              >
+                Start a project
+
+                <ArrowUpRight
+                  size={17}
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                />
+              </Link>
+
+              <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-neutral-400">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200">
+                  <ArrowDown size={14} />
+                </span>
+
+                <span>Explore work</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom information */}
+          <div className="mt-20 grid gap-8 border-t border-neutral-200 pt-6 sm:grid-cols-3">
+            <HeroStat number="01" text="Product Animation" />
+            <HeroStat number="02" text="Motion Systems" />
+            <HeroStat number="03" text="Cinematic Visuals" />
           </div>
         </div>
       </section>
@@ -117,65 +142,45 @@ export default function MotionGraphicsPage() {
         id="work"
         className="border-y border-neutral-200 bg-neutral-50"
       >
-        <div className="mx-auto max-w-[1400px] px-6 py-20 sm:px-8 lg:px-10 lg:py-28">
-          {/* Section heading */}
-          <div className="mb-10 flex items-end justify-between gap-8">
+        <div className="mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
+          {/* Heading */}
+          <div className="mb-16 grid gap-10 lg:grid-cols-[1fr_0.6fr] lg:items-end">
             <div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
+              <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400 sm:text-xs">
                 Selected Work
               </p>
 
-              <h2 className="text-4xl font-semibold tracking-[-0.05em] sm:text-5xl lg:text-6xl">
-                Motion in action.
+              <h2 className="text-[48px] font-semibold leading-[0.92] tracking-[-0.065em] sm:text-[68px] lg:text-[84px]">
+                Motion
+                <br />
+                <span className="text-neutral-300">in action.</span>
               </h2>
             </div>
 
-            <p className="hidden max-w-[360px] text-right text-sm leading-6 text-neutral-400 md:block">
-              A collection of motion and visual work.
-            </p>
+            <div className="lg:pb-2">
+              <p className="max-w-md text-sm leading-7 text-neutral-500 lg:ml-auto lg:text-right">
+                A collection of motion experiments, product animations,
+                cinematic visuals, and brand-driven movement.
+              </p>
+            </div>
           </div>
 
-          {/* =====================================================
-              VIDEO GRID
-
-              1 column  -> mobile
-              2 columns -> tablet
-              3 columns -> desktop
-          ===================================================== */}
-
+          {/* Video grid */}
           {videos.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {videos.map((video) => (
-                <article
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {videos.map((video, index) => (
+                <VideoCard
                   key={video.id}
-                  className="group overflow-hidden rounded-[24px] bg-black shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
-                >
-                  {/* Video */}
-                  <div className="relative aspect-video w-full overflow-hidden bg-black">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=1&rel=0&playsinline=1&iv_load_policy=3&fs=0`}
-                      title={video.title}
-                      className="absolute inset-0 h-full w-full border-0"
-                      loading="lazy"
-                      allow="autoplay; encrypted-media; picture-in-picture"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                    />
-
-                    {/* Expand button */}
-                    <button
-                      type="button"
-                      aria-label={`Expand ${video.title}`}
-                      onClick={() => setExpandedVideo(video)}
-                      className="absolute bottom-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-md transition-all duration-300 hover:bg-black group-hover:opacity-100"
-                    >
-                      <Maximize2 size={17} />
-                    </button>
-                  </div>
-                </article>
+                  video={video}
+                  index={index}
+                  activeVideo={activeVideo}
+                  setActiveVideo={setActiveVideo}
+                  onExpand={() => setExpandedVideo(video)}
+                />
               ))}
             </div>
           ) : (
-            <div className="rounded-[24px] border border-dashed border-neutral-300 bg-white px-6 py-20 text-center">
+            <div className="rounded-[32px] border border-dashed border-neutral-300 bg-white px-6 py-24 text-center">
               <p className="text-sm text-neutral-400">
                 Add YouTube video IDs to the videos array.
               </p>
@@ -185,46 +190,120 @@ export default function MotionGraphicsPage() {
       </section>
 
       {/* =========================================================
-          SHORT SERVICES SECTION
+          SERVICES
       ========================================================= */}
 
-      <section className="mx-auto max-w-[1400px] px-6 py-24 sm:px-8 lg:px-10 lg:py-32">
-        <div className="grid gap-14 lg:grid-cols-[0.75fr_1.25fr]">
+      <section className="mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-36">
+        <div className="grid gap-16 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
-              What We Create
+            <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400 sm:text-xs">
+              What I Create
             </p>
 
-            <h2 className="max-w-[520px] text-4xl font-semibold leading-[1.05] tracking-[-0.05em] sm:text-5xl">
-              Designed to move.
+            <h2 className="max-w-xl text-[48px] font-semibold leading-[0.94] tracking-[-0.065em] sm:text-[68px]">
+              Designed
+              <br />
+              <span className="text-neutral-300">to move.</span>
             </h2>
+
+            <p className="mt-8 max-w-md text-sm leading-7 text-neutral-500">
+                Motion isn&apos;t decoration. It gives products personality,
+                communicates ideas faster, and creates memorable experiences.
+            </p>
           </div>
 
-          <div className="divide-y divide-neutral-200 border-y border-neutral-200">
+          <div className="border-y border-neutral-200">
             <Service
               number="01"
               title="Product Animation"
-              text="Software, products, and interfaces brought to life."
+              text="Software, products, interfaces, and digital experiences brought to life through precise motion."
             />
 
             <Service
               number="02"
               title="Motion Graphics"
-              text="Visual systems for launches, campaigns, and digital experiences."
+              text="Visual systems for launches, campaigns, presentations, social content, and digital experiences."
             />
 
             <Service
               number="03"
               title="Brand Motion"
-              text="Expressive motion built around your visual identity."
+              text="Expressive motion systems built around your visual identity, typography, logo, and brand language."
             />
 
             <Service
               number="04"
               title="Cinematic Visuals"
-              text="High-impact visuals for digital products and campaigns."
+              text="High-impact visuals designed for products, campaigns, announcements, and premium digital experiences."
             />
           </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          PROCESS
+      ========================================================= */}
+
+      <section className="border-y border-neutral-200 bg-neutral-950 text-white">
+        <div className="mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
+          <div className="grid gap-16 lg:grid-cols-[0.7fr_1.3fr]">
+            <div>
+              <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40 sm:text-xs">
+                Process
+              </p>
+
+              <h2 className="text-[48px] font-semibold leading-[0.94] tracking-[-0.065em] sm:text-[68px]">
+                From idea
+                <br />
+                <span className="text-white/30">to motion.</span>
+              </h2>
+            </div>
+
+            <div className="divide-y divide-white/10 border-y border-white/10">
+              <ProcessStep
+                number="01"
+                title="Understand"
+                text="We define the idea, objective, audience, and visual direction."
+              />
+
+              <ProcessStep
+                number="02"
+                title="Design"
+                text="Frames, compositions, typography, and visual language are developed before motion."
+              />
+
+              <ProcessStep
+                number="03"
+                title="Animate"
+                text="Every movement is carefully timed, layered, and refined to communicate clearly."
+              />
+
+              <ProcessStep
+                number="04"
+                title="Deliver"
+                text="Final motion is polished and prepared for the platforms where it needs to perform."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================
+          BIG STATEMENT
+      ========================================================= */}
+
+      <section className="mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-36">
+        <div className="border-b border-neutral-200 pb-20">
+          <p className="mb-8 text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400 sm:text-xs">
+            The Philosophy
+          </p>
+
+          <h2 className="max-w-[1200px] text-[42px] font-semibold leading-[0.98] tracking-[-0.06em] sm:text-[62px] lg:text-[82px]">
+            Good motion explains.
+            <br />
+            Great motion
+            <span className="text-neutral-300"> makes people feel.</span>
+          </h2>
         </div>
       </section>
 
@@ -232,57 +311,83 @@ export default function MotionGraphicsPage() {
           CTA
       ========================================================= */}
 
-      <section className="mx-auto max-w-[1400px] px-6 pb-24 sm:px-8 lg:px-10 lg:pb-32">
-        <div className="rounded-[32px] bg-neutral-950 px-7 py-14 text-white sm:px-12 lg:px-16 lg:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/40">
-            Have a project in mind?
-          </p>
+      <section className="mx-auto max-w-[1500px] px-6 pb-10 sm:px-8 lg:px-12 lg:pb-14">
+        <div className="relative overflow-hidden rounded-[32px] bg-neutral-950 px-7 py-16 text-white sm:px-12 lg:px-20 lg:py-24">
+          {/* Decorative lines */}
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-[45%] opacity-10">
+            <div className="absolute right-[15%] top-[-20%] h-[140%] w-px rotate-[25deg] bg-white" />
+            <div className="absolute right-[30%] top-[-20%] h-[140%] w-px rotate-[25deg] bg-white" />
+            <div className="absolute right-[45%] top-[-20%] h-[140%] w-px rotate-[25deg] bg-white" />
+          </div>
 
-          <div className="mt-5 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-            <h2 className="max-w-[800px] text-4xl font-semibold tracking-[-0.055em] sm:text-5xl lg:text-6xl">
-              Let&apos;s make it move.
-            </h2>
+          <div className="relative z-10">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40 sm:text-xs">
+              Have a project in mind?
+            </p>
 
-            <Link
-              href="/#contact"
-              className="group inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-medium text-neutral-950 transition-transform hover:-translate-y-0.5"
-            >
-              Start a project
-              <ArrowUpRight
-                size={17}
-                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </Link>
+            <div className="mt-8 flex flex-col justify-between gap-12 lg:flex-row lg:items-end">
+              <h2 className="max-w-[950px] text-[48px] font-semibold leading-[0.92] tracking-[-0.065em] sm:text-[68px] lg:text-[88px]">
+                Let&apos;s make
+                <br />
+                <span className="text-white/30">something move.</span>
+              </h2>
+
+              <Link
+                href="/#contact"
+                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-medium text-neutral-950 transition-all duration-300 hover:-translate-y-1"
+              >
+                Start a project
+
+                <ArrowUpRight
+                  size={18}
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================
-          EXPANDED VIDEO
+          EXPANDED VIDEO MODAL
       ========================================================= */}
 
       {expandedVideo && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 sm:p-8"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm sm:p-8"
           role="dialog"
           aria-modal="true"
           aria-label={expandedVideo.title}
           onMouseDown={() => setExpandedVideo(null)}
         >
+          {/* Close */}
           <button
             type="button"
             aria-label="Close video"
             onClick={() => setExpandedVideo(null)}
-            className="absolute right-5 top-5 z-[110] flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+            className="absolute right-5 top-5 z-[110] flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:rotate-90 hover:bg-white/20"
           >
             <X size={21} />
           </button>
 
+          {/* Video */}
           <div
-            className="w-full max-w-[1280px] overflow-hidden rounded-[20px] bg-black shadow-2xl"
+            className="w-full max-w-[1400px]"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <div className="relative aspect-video w-full">
+            <div className="mb-4 flex items-center justify-between px-1 text-white">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
+                  {expandedVideo.category}
+                </p>
+
+                <h3 className="mt-1 text-lg font-medium">
+                  {expandedVideo.title}
+                </h3>
+              </div>
+            </div>
+
+            <div className="relative aspect-video w-full overflow-hidden rounded-[20px] bg-black shadow-2xl">
               <iframe
                 src={`https://www.youtube-nocookie.com/embed/${expandedVideo.id}?autoplay=1&rel=0&playsinline=1`}
                 title={expandedVideo.title}
@@ -295,6 +400,118 @@ export default function MotionGraphicsPage() {
         </div>
       )}
     </main>
+  );
+}
+
+/* ===============================================================
+   HERO STAT
+================================================================ */
+
+function HeroStat({
+  number,
+  text,
+}: {
+  number: string;
+  text: string;
+}) {
+  return (
+    <div className="flex items-center gap-4">
+      <span className="text-[10px] font-medium tracking-[0.2em] text-neutral-400">
+        {number}
+      </span>
+
+      <span className="text-xs uppercase tracking-[0.15em] text-neutral-500">
+        {text}
+      </span>
+    </div>
+  );
+}
+
+/* ===============================================================
+   VIDEO CARD
+================================================================ */
+
+function VideoCard({
+  video,
+  index,
+  activeVideo,
+  setActiveVideo,
+  onExpand,
+}: {
+  video: Video;
+  index: number;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
+  onExpand: () => void;
+}) {
+  const isActive = activeVideo === video.id;
+
+  return (
+    <article
+      className="group"
+      onMouseEnter={() => setActiveVideo(video.id)}
+      onMouseLeave={() => setActiveVideo(null)}
+    >
+      {/* Video */}
+      <div className="relative aspect-video overflow-hidden rounded-[28px] bg-black shadow-[0_25px_80px_rgba(0,0,0,0.08)]">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=0&rel=0&playsinline=1&iv_load_policy=3&fs=0`}
+          title={video.title}
+          className={`absolute inset-0 h-full w-full scale-[1.01] border-0 transition-transform duration-700 ${
+            isActive ? "scale-[1.04]" : ""
+          }`}
+          loading="lazy"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
+
+        {/* Gradient */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+
+        {/* Number */}
+        <div className="absolute left-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs text-white backdrop-blur-md">
+          {String(index + 1).padStart(2, "0")}
+        </div>
+
+        {/* Play / expand */}
+        <button
+          type="button"
+          aria-label={`Expand ${video.title}`}
+          onClick={onExpand}
+          className="absolute bottom-5 right-5 flex h-12 w-12 items-center justify-center rounded-full bg-white text-neutral-950 opacity-100 shadow-lg transition-all duration-300 hover:scale-110"
+        >
+          <Maximize2 size={17} />
+        </button>
+
+        {/* Bottom label */}
+        <div className="absolute bottom-5 left-5">
+          <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.25em] text-white/50">
+            {video.category}
+          </p>
+
+          <p className="text-sm font-medium text-white">{video.title}</p>
+        </div>
+      </div>
+
+      {/* Meta */}
+      <div className="flex items-start justify-between gap-6 px-1 pt-5">
+        <div>
+          <h3 className="text-xl font-semibold tracking-[-0.03em]">
+            {video.title}
+          </h3>
+
+          {video.description && (
+            <p className="mt-2 max-w-md text-sm leading-6 text-neutral-500">
+              {video.description}
+            </p>
+          )}
+        </div>
+
+        <span className="mt-1 shrink-0 text-xs text-neutral-400">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+    </article>
   );
 }
 
@@ -312,18 +529,42 @@ function Service({
   text: string;
 }) {
   return (
-    <div className="grid gap-4 py-7 sm:grid-cols-[60px_1fr] sm:gap-8">
+    <div className="group grid gap-5 py-9 sm:grid-cols-[60px_1fr] sm:gap-8">
       <span className="text-xs font-medium text-neutral-400">{number}</span>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-        <h3 className="text-xl font-semibold tracking-[-0.025em]">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+        <h3 className="text-2xl font-semibold tracking-[-0.035em] transition-transform duration-300 group-hover:translate-x-2">
           {title}
         </h3>
 
-        <p className="max-w-[480px] text-sm leading-6 text-neutral-500">
+        <p className="max-w-[500px] text-sm leading-7 text-neutral-500">
           {text}
         </p>
       </div>
+    </div>
+  );
+}
+
+/* ===============================================================
+   PROCESS STEP
+================================================================ */
+
+function ProcessStep({
+  number,
+  title,
+  text,
+}: {
+  number: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="grid gap-5 py-9 sm:grid-cols-[60px_180px_1fr] sm:gap-8">
+      <span className="text-xs text-white/30">{number}</span>
+
+      <h3 className="text-xl font-medium tracking-[-0.02em]">{title}</h3>
+
+      <p className="max-w-lg text-sm leading-7 text-white/40">{text}</p>
     </div>
   );
 }
