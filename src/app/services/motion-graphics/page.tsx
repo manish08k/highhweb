@@ -5,10 +5,9 @@ import {
   ArrowDown,
   ArrowUpRight,
   Maximize2,
-  Play,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Video = {
   id: string;
@@ -25,7 +24,7 @@ const videos: Video[] = [
     description: "A curated motion and visual design showcase.",
   },
 
-  // Add more videos here
+  // Add more videos here — just copy this block and fill in a real YouTube ID
   // {
   //   id: "YOUR_VIDEO_ID",
   //   title: "Product Animation",
@@ -37,6 +36,17 @@ const videos: Video[] = [
 export default function MotionGraphicsPage() {
   const [expandedVideo, setExpandedVideo] = useState<Video | null>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(videos.map((v) => v.category)));
+    return ["All", ...unique];
+  }, []);
+
+  const filteredVideos = useMemo(() => {
+    if (activeCategory === "All") return videos;
+    return videos.filter((v) => v.category === activeCategory);
+  }, [activeCategory]);
 
   useEffect(() => {
     if (!expandedVideo) return;
@@ -63,7 +73,6 @@ export default function MotionGraphicsPage() {
       ========================================================= */}
 
       <section className="relative overflow-hidden">
-        {/* Background details */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[8%] top-[18%] h-px w-[84%] bg-neutral-200" />
           <div className="absolute left-[8%] top-[18%] h-[500px] w-px bg-neutral-200" />
@@ -74,11 +83,9 @@ export default function MotionGraphicsPage() {
         </div>
 
         <div className="relative mx-auto flex min-h-[88vh] max-w-[1500px] flex-col justify-between px-6 pb-12 pt-10 sm:px-8 lg:px-12 lg:pb-16 lg:pt-12">
-          {/* Top label */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="h-2 w-2 rounded-full bg-neutral-950" />
-
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-500 sm:text-xs">
                 Motion Graphics
               </p>
@@ -89,7 +96,6 @@ export default function MotionGraphicsPage() {
             </span>
           </div>
 
-          {/* Main hero */}
           <div className="relative z-10 mt-24">
             <p className="mb-6 max-w-xl text-sm leading-6 text-neutral-400 sm:text-base">
               Motion design for products, brands, launches, and digital
@@ -108,7 +114,6 @@ export default function MotionGraphicsPage() {
                 className="group inline-flex w-fit items-center gap-3 rounded-full bg-neutral-950 px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-neutral-800"
               >
                 Start a project
-
                 <ArrowUpRight
                   size={17}
                   className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -119,13 +124,11 @@ export default function MotionGraphicsPage() {
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200">
                   <ArrowDown size={14} />
                 </span>
-
                 <span>Explore work</span>
               </div>
             </div>
           </div>
 
-          {/* Bottom information */}
           <div className="mt-20 grid gap-8 border-t border-neutral-200 pt-6 sm:grid-cols-3">
             <HeroStat number="01" text="Product Animation" />
             <HeroStat number="02" text="Motion Systems" />
@@ -138,13 +141,9 @@ export default function MotionGraphicsPage() {
           VIDEO SHOWCASE
       ========================================================= */}
 
-      <section
-        id="work"
-        className="border-y border-neutral-200 bg-neutral-50"
-      >
+      <section id="work" className="border-y border-neutral-200 bg-neutral-50">
         <div className="mx-auto max-w-[1500px] px-6 py-24 sm:px-8 lg:px-12 lg:py-32">
-          {/* Heading */}
-          <div className="mb-16 grid gap-10 lg:grid-cols-[1fr_0.6fr] lg:items-end">
+          <div className="mb-10 grid gap-10 lg:grid-cols-[1fr_0.6fr] lg:items-end">
             <div>
               <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400 sm:text-xs">
                 Selected Work
@@ -165,10 +164,30 @@ export default function MotionGraphicsPage() {
             </div>
           </div>
 
+          {/* Category filter */}
+          {categories.length > 2 && (
+            <div className="mb-10 flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={`rounded-full border px-4 py-2 text-xs font-medium uppercase tracking-[0.1em] transition-all duration-300 ${
+                    activeCategory === cat
+                      ? "border-neutral-950 bg-neutral-950 text-white"
+                      : "border-neutral-300 bg-white text-neutral-500 hover:border-neutral-950 hover:text-neutral-950"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Video grid */}
-          {videos.length > 0 ? (
+          {filteredVideos.length > 0 ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {videos.map((video, index) => (
+              {filteredVideos.map((video, index) => (
                 <VideoCard
                   key={video.id}
                   video={video}
@@ -207,8 +226,8 @@ export default function MotionGraphicsPage() {
             </h2>
 
             <p className="mt-8 max-w-md text-sm leading-7 text-neutral-500">
-                Motion isn&apos;t decoration. It gives products personality,
-                communicates ideas faster, and creates memorable experiences.
+              Motion isn&apos;t decoration. It gives products personality,
+              communicates ideas faster, and creates memorable experiences.
             </p>
           </div>
 
@@ -218,19 +237,16 @@ export default function MotionGraphicsPage() {
               title="Product Animation"
               text="Software, products, interfaces, and digital experiences brought to life through precise motion."
             />
-
             <Service
               number="02"
               title="Motion Graphics"
               text="Visual systems for launches, campaigns, presentations, social content, and digital experiences."
             />
-
             <Service
               number="03"
               title="Brand Motion"
               text="Expressive motion systems built around your visual identity, typography, logo, and brand language."
             />
-
             <Service
               number="04"
               title="Cinematic Visuals"
@@ -265,19 +281,16 @@ export default function MotionGraphicsPage() {
                 title="Understand"
                 text="We define the idea, objective, audience, and visual direction."
               />
-
               <ProcessStep
                 number="02"
                 title="Design"
                 text="Frames, compositions, typography, and visual language are developed before motion."
               />
-
               <ProcessStep
                 number="03"
                 title="Animate"
                 text="Every movement is carefully timed, layered, and refined to communicate clearly."
               />
-
               <ProcessStep
                 number="04"
                 title="Deliver"
@@ -313,7 +326,6 @@ export default function MotionGraphicsPage() {
 
       <section className="mx-auto max-w-[1500px] px-6 pb-10 sm:px-8 lg:px-12 lg:pb-14">
         <div className="relative overflow-hidden rounded-[32px] bg-neutral-950 px-7 py-16 text-white sm:px-12 lg:px-20 lg:py-24">
-          {/* Decorative lines */}
           <div className="pointer-events-none absolute right-0 top-0 h-full w-[45%] opacity-10">
             <div className="absolute right-[15%] top-[-20%] h-[140%] w-px rotate-[25deg] bg-white" />
             <div className="absolute right-[30%] top-[-20%] h-[140%] w-px rotate-[25deg] bg-white" />
@@ -337,7 +349,6 @@ export default function MotionGraphicsPage() {
                 className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-full bg-white px-7 py-4 text-sm font-medium text-neutral-950 transition-all duration-300 hover:-translate-y-1"
               >
                 Start a project
-
                 <ArrowUpRight
                   size={18}
                   className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -360,7 +371,6 @@ export default function MotionGraphicsPage() {
           aria-label={expandedVideo.title}
           onMouseDown={() => setExpandedVideo(null)}
         >
-          {/* Close */}
           <button
             type="button"
             aria-label="Close video"
@@ -370,7 +380,6 @@ export default function MotionGraphicsPage() {
             <X size={21} />
           </button>
 
-          {/* Video */}
           <div
             className="w-full max-w-[1400px]"
             onMouseDown={(event) => event.stopPropagation()}
@@ -380,7 +389,6 @@ export default function MotionGraphicsPage() {
                 <p className="text-[10px] uppercase tracking-[0.25em] text-white/40">
                   {expandedVideo.category}
                 </p>
-
                 <h3 className="mt-1 text-lg font-medium">
                   {expandedVideo.title}
                 </h3>
@@ -407,19 +415,12 @@ export default function MotionGraphicsPage() {
    HERO STAT
 ================================================================ */
 
-function HeroStat({
-  number,
-  text,
-}: {
-  number: string;
-  text: string;
-}) {
+function HeroStat({ number, text }: { number: string; text: string }) {
   return (
     <div className="flex items-center gap-4">
       <span className="text-[10px] font-medium tracking-[0.2em] text-neutral-400">
         {number}
       </span>
-
       <span className="text-xs uppercase tracking-[0.15em] text-neutral-500">
         {text}
       </span>
@@ -452,7 +453,6 @@ function VideoCard({
       onMouseEnter={() => setActiveVideo(video.id)}
       onMouseLeave={() => setActiveVideo(null)}
     >
-      {/* Video */}
       <div className="relative aspect-video overflow-hidden rounded-[28px] bg-black shadow-[0_25px_80px_rgba(0,0,0,0.08)]">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=0&rel=0&playsinline=1&iv_load_policy=3&fs=0`}
@@ -465,15 +465,12 @@ function VideoCard({
           referrerPolicy="strict-origin-when-cross-origin"
         />
 
-        {/* Gradient */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
 
-        {/* Number */}
         <div className="absolute left-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-xs text-white backdrop-blur-md">
           {String(index + 1).padStart(2, "0")}
         </div>
 
-        {/* Play / expand */}
         <button
           type="button"
           aria-label={`Expand ${video.title}`}
@@ -483,17 +480,14 @@ function VideoCard({
           <Maximize2 size={17} />
         </button>
 
-        {/* Bottom label */}
         <div className="absolute bottom-5 left-5">
           <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.25em] text-white/50">
             {video.category}
           </p>
-
           <p className="text-sm font-medium text-white">{video.title}</p>
         </div>
       </div>
 
-      {/* Meta */}
       <div className="flex items-start justify-between gap-6 px-1 pt-5">
         <div>
           <h3 className="text-xl font-semibold tracking-[-0.03em]">
@@ -561,9 +555,7 @@ function ProcessStep({
   return (
     <div className="grid gap-5 py-9 sm:grid-cols-[60px_180px_1fr] sm:gap-8">
       <span className="text-xs text-white/30">{number}</span>
-
       <h3 className="text-xl font-medium tracking-[-0.02em]">{title}</h3>
-
       <p className="max-w-lg text-sm leading-7 text-white/40">{text}</p>
     </div>
   );
