@@ -23,6 +23,13 @@ const videos: Video[] = [
     category: "Motion",
     description: "A curated motion and visual design showcase.",
   },
+  {
+    id: "wokDueURKeM",
+    title: "Edit 3",
+    category: "Motion",
+    description: "Another motion and visual design showcase.",
+  },
+];
 
   // Add more videos here — just copy this block and fill in a real YouTube ID
   // {
@@ -31,7 +38,7 @@ const videos: Video[] = [
   //   category: "Product",
   //   description: "Product-focused motion design.",
   // },
-];
+
 
 export default function MotionGraphicsPage() {
   const [expandedVideo, setExpandedVideo] = useState<Video | null>(null);
